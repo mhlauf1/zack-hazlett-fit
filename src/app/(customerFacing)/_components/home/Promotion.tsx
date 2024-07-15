@@ -58,7 +58,7 @@ export default function Promotion() {
                 <div>
                   <h3 className="font-semibold text-xl">Lifetime Access</h3>
                   <p className="mt-2">
-                    When you purchase a program, it's yours forever.
+                    When you purchase a program, it&apos;s yours forever.
                   </p>
                 </div>
               </div>

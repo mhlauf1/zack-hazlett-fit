@@ -75,10 +75,10 @@ export default async function About() {
                   </h3>
                 </div>
                 <p className="mb-8 md:mb-6 mt-4 md:text-lg leading-8 text-gray-600 sm:max-w-md lg:max-w-none">
-                  Unlock your fitness potential with Zack's expertly designed
-                  courses, available for immediate download. Each program is
-                  crafted from his wealth of knowledge as a seasoned personal
-                  trainer.
+                  Unlock your fitness potential with Zack&apos;s expertly
+                  designed courses, available for immediate download. Each
+                  program is crafted from his wealth of knowledge as a seasoned
+                  personal trainer.
                 </p>
                 <Link href="/about">
                   <button className="bg-neutral-900 flex items-center gap-x-3 text-neutral-50 border border-neutral-200 py-3 lg:py-4 px-6 md:px-10 rounded-full">
