@@ -27,7 +27,7 @@ export default function MyOrdersPage() {
             <CardTitle>My Orders</CardTitle>
             <CardDescription>
               Enter your email and we will email you your order history and
-              download links
+              download links.
             </CardDescription>
           </CardHeader>
           <CardContent>
