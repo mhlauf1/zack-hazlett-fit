@@ -82,6 +82,9 @@ Prisma.NullTypes = {
  * Enums
  */
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 });
 
@@ -123,6 +126,11 @@ exports.Prisma.DownloadVerificationScalarFieldEnum = {
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
 };
 
 
@@ -170,17 +178,18 @@ const config = {
   "datasourceNames": [
     "db"
   ],
-  "activeProvider": "sqlite",
+  "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
-        "fromEnvVar": "DATABASE_URL",
+        "fromEnvVar": "POSTGRES_PRISMA_URL",
         "value": null
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/client\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Product {\n  id                     String                 @id @default(uuid())\n  name                   String\n  priceInCents           Int\n  filePath               String\n  imagePath              String\n  description            String\n  isAvailableForPurchase Boolean                @default(true)\n  createdAt              DateTime               @default(now())\n  updatedAt              DateTime               @updatedAt\n  orders                 Order[]\n  downloadVerifications  DownloadVerification[]\n}\n\nmodel User {\n  id        String   @id @default(uuid())\n  email     String   @unique\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  orders    Order[]\n}\n\nmodel Order {\n  id               String   @id @default(uuid())\n  pricePaidInCents Int\n  createdAt        DateTime @default(now())\n  updatedAt        DateTime @updatedAt\n\n  userId    String\n  productId String\n  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)\n  product   Product @relation(fields: [productId], references: [id], onDelete: Restrict)\n}\n\nmodel DownloadVerification {\n  id        String   @id @default(uuid())\n  expiresAt DateTime\n  createdAt DateTime @default(now())\n  productId String\n  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)\n}\n",
-  "inlineSchemaHash": "d8f6284e07ef768a05bf55a4ba3da1664f09579c12c8cc6f4edc9be084fd5402",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/client\"\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"POSTGRES_PRISMA_URL\") // uses connection pooling\n  directUrl = env(\"POSTGRES_URL_NON_POOLING\") // uses a direct connection\n}\n\nmodel Product {\n  id                     String                 @id @default(uuid())\n  name                   String\n  priceInCents           Int\n  filePath               String\n  imagePath              String\n  description            String\n  isAvailableForPurchase Boolean                @default(true)\n  createdAt              DateTime               @default(now())\n  updatedAt              DateTime               @updatedAt\n  orders                 Order[]\n  downloadVerifications  DownloadVerification[]\n}\n\nmodel User {\n  id        String   @id @default(uuid())\n  email     String   @unique\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  orders    Order[]\n}\n\nmodel Order {\n  id               String   @id @default(uuid())\n  pricePaidInCents Int\n  createdAt        DateTime @default(now())\n  updatedAt        DateTime @updatedAt\n\n  userId    String\n  productId String\n  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)\n  product   Product @relation(fields: [productId], references: [id], onDelete: Restrict)\n}\n\nmodel DownloadVerification {\n  id        String   @id @default(uuid())\n  expiresAt DateTime\n  createdAt DateTime @default(now())\n  productId String\n  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)\n}\n",
+  "inlineSchemaHash": "d6f495046b2e4ae437d33f8654d2e71bad0a6fe5269c506e269bd3f86c8ab262",
   "copyEngine": true
 }
 
